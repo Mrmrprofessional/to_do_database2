@@ -1,33 +1,33 @@
 <html>
 <head>
     <title>To Do List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 </head>
-<body>
+<body class="container">
     <h1>{{ category.getName }}</h1>
 
     {% if tasks is not empty %}
         <p>Here are the tasks:</p>
         <ul>
             {% for task in tasks %}
-                <li>{{ task.getDescription }}</li>
-                <ul>
-                    <li>Due: {{ task.getDueDate }}</li>
-                </ul>
+                <li><h3>{{ task.getDescription }}</h3> Due: {{ task.getDueDate }}</li>
             {% endfor %}
         </ul>
     {% endif %}
 
     <h4>Add a task</h4>
 
-    <form action='/tasks' method='post'>
-        <input id="category_id" name="category_id" type="hidden" value="{{ category.getId() }}">
-        <label for='description'>Task Description</label>
-        <input id='description' name='description' type='text'>
-        <label for='date'>Due Date</label>
-        <input id='date' name='date' type='date'>
+    <div class='row'>
+        <form action='/tasks' method='post' class="form-group col-xs-4">
 
-        <button type='submit'>Add task</button>
-    </form>
+            <input id="category_id" name="category_id" type="hidden" value="{{ category.getId() }}">
+            <label for='description'>Task Description</label>
+            <input id='description' name='description' type='text' class="form-control">
+            <label for='date'>Due Date</label>
+            <input id='date' name='date' type='date' class="form-control">
+            <button type='submit' class="btn-primary" style="margin-top:1em;">Add task</button>
+        </form>
+    </div>
 
     <form action='/delete_tasks' method='post'>
         <input id="category_id" name="category_id" type="hidden" value="{{ category.getId() }}">
