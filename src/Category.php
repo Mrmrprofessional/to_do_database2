@@ -50,18 +50,18 @@
           $GLOBALS['DB']->exec("DELETE FROM categories;");
         }
 
-        // static function find($search_id)
-        // {
-        //     $found_category = null;
-        //     $categories = Category::findMatches();
-        //     foreach($categories as $category) {
-        //         $category_id = $category->getId();
-        //         if ($category_id == $search_id) {
-        //           $found_category = $category;
-        //         }
-        //     }
-        //     return $found_category;
-        // }
+        static function find($search_id)
+        {
+            $found_category = null;
+            $categories = Category::getAll();
+            foreach($categories as $category) {
+                $category_id = $category->getId();
+                if ($category_id == $search_id) {
+                  $found_category = $category;
+                }
+            }
+            return $found_category;
+        }
 
         static function getMatches($category_input)
         {
@@ -74,6 +74,21 @@
                 array_push($categories, $new_category);
             }
             return $categories;
+        }
+
+        function getTasks()
+        {
+            $tasks = Array();
+            $returned_tasks = $GLOBALS['DB']->query("SELECT * FROM tasks WHERE category_id = {$this->getId()};");
+            foreach($returned_tasks as $task) {
+                $description = $task['description'];
+                $id = $task['id'];
+                $category_id = $task['category_id'];
+                $new_task = new Task($description, $id, $category_id);
+                array_push($tasks, $new_task);
+                var_dump($tasks);
+            }
+            return $tasks;
         }
 
     }
