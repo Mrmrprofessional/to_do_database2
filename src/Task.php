@@ -52,9 +52,9 @@
             return $tasks;
         }
 
-        static function deleteAll()
+        static function deleteAll($category_id)
         {
-          $GLOBALS['DB']->exec("DELETE FROM tasks;");
+          $GLOBALS['DB']->exec("DELETE FROM tasks WHERE category_id = {$category_id};");
         }
 
         static function find($search_id)
