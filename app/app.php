@@ -39,8 +39,9 @@
 
     $app->post("/tasks", function() use ($app) {
         $description = $_POST['description'];
+        $due_date = $_POST['date'];
         $category_id = $_POST['category_id'];
-        $task = new Task($description, $id = null, $category_id);
+        $task = new Task($description, $due_date, $id = null, $category_id);
         $task->save();
         $category = Category::find($category_id);
         return $app['twig']->render('category.html.twig', array('category' => $category, 'tasks' => $category->getTasks()));
@@ -53,14 +54,15 @@
     });
 
     $app->post("/delete_categories", function() use ($app) {
-        Category::deleteAll();
+        Category::deleteEverything();
         return $app['twig']->render('index.html.twig');
     });
 
     $app->post("/delete_tasks", function() use ($app) {
         $category_id = $_POST['category_id'];
-        Task::deleteAll($category_id);
-        return $app['twig']->render('category.html.twig');
+        $category = Category::find($category_id);
+        Task::deleteTasks($category_id);
+        return $app['twig']->render('category.html.twig', array('category' => $category));
     });
 
     $app->post("/results", function() use ($app) {

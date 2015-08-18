@@ -47,6 +47,11 @@
 
         static function deleteAll()
         {
+          $GLOBALS['DB']->exec("DELETE FROM categories;");
+        }
+
+        static function deleteEverything()
+        {
           $GLOBALS['DB']->exec("DELETE FROM categories; DELETE FROM tasks;");
         }
 
@@ -79,12 +84,13 @@
         function getTasks()
         {
             $tasks = Array();
-            $returned_tasks = $GLOBALS['DB']->query("SELECT * FROM tasks WHERE category_id = {$this->getId()};");
+            $returned_tasks = $GLOBALS['DB']->query("SELECT * FROM tasks WHERE category_id = {$this->getId()} ORDER BY due_date;");
             foreach($returned_tasks as $task) {
                 $description = $task['description'];
+                $due_date = $task['due_date'];
                 $id = $task['id'];
                 $category_id = $task['category_id'];
-                $new_task = new Task($description, $id, $category_id);
+                $new_task = new Task($description, $due_date, $id, $category_id);
                 array_push($tasks, $new_task);
             }
             return $tasks;
