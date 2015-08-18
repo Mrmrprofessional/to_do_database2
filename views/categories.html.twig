@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>To Do List</title>
+    </head>
+    <body>
+        <h1>To Do List</h1>
+        {% if categories is not empty %}
+             <ul>
+                {% for category in categories %}
+                    <li>{{ category.getName }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form action='/categories' method='post'>
+            <label for='name'>Category Description</label>
+            <input id='name' name='name' type='text'>
+
+            <button type='submit'>Add Category</button>
+        </form>
+
+        <form action='/results' method='post'>
+            <label for='find'>Find Category</label>
+            <input id='find' name='find' type='text'>
+
+            <button type='submit'>Find a Category</button>
+        </form>
+
+        <form action='/delete_categories' method='post'>
+            <button type='submit'>Clear</button>
+        </form>
+
+        <p><a href="/">Home</a></p>
+
+    </body>
+</html>
